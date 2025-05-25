@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Habit Stack</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Create Habit Stack</h1>
+        <a href="index.html">Back to Dashboard</a>
+    </header>
+
+    <main>
+        <form id="stack-form">
+            <div class="form-group">
+                <label for="base_habit_id">After I (existing habit):</label>
+                <select id="base_habit_id" name="base_habit_id" required>
+                    <!-- Will be populated by JavaScript -->
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="new_habit_id">I will (new habit):</label>
+                <select id="new_habit_id" name="new_habit_id" required>
+                    <!-- Will be populated by JavaScript -->
+                </select>
+            </div>
+            
+            <button type="submit">Create Stack</button>
+        </form>
+    </main>
+
+    <script src="js/stacks.js"></script>
+</body>
+</html>

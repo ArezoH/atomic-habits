@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log Habit Completion</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Log Habit Completion</h1>
+        <a href="index.html">Back to Dashboard</a>
+    </header>
+
+    <main>
+        <form id="log-form">
+            <div class="form-group">
+                <label for="habit_id">Select Habit:</label>
+                <select id="habit_id" name="habit_id" required>
+                    <!-- Will be populated by JavaScript -->
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes"></textarea>
+            </div>
+            
+            <button type="submit">Log Completion</button>
+        </form>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load habits into the dropdown
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://localhost:8081/HabitManagement/habits?action=list', true);
+            
+            xhr.onload = function() {
+                if (this.status === 200) {
+                    const habits = JSON.parse(this.responseText);
+                    const select = document.getElementById('habit_id');
+                    
+                    habits.forEach(habit => {
+                        const option = document.createElement('option');
+                        option.value = habit.id;
+                        option.textContent = habit.name;
+                        select.appendChild(option);
+                    });
+                } else {
+                    console.error('Error loading habits:', this.statusText);
+                }
+            };
+            
+            xhr.onerror = function() {
+                console.error('Request failed');
+            };
+            
+            xhr.send();
+            
+            // Handle form submission
+            const form = document.getElementById('log-form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Create URLSearchParams for reliable form data encoding
+                    const params = new URLSearchParams();
+                    params.append('action', 'log');
+                    
+                    // Get habit_id value safely
+                    const habitIdInput = form.querySelector('[name="habit_id"]');
+                    if (habitIdInput && habitIdInput.value) {
+                        params.append('habit_id', habitIdInput.value);
+                    } else {
+                        alert('Please select a habit');
+                        return;
+                    }
+                    
+                    // Add notes if available
+                    const notesInput = form.querySelector('[name="notes"]');
+                    if (notesInput && notesInput.value) {
+                        params.append('notes', notesInput.value);
+                    }
+                    
+                    console.log('Submitting log data:', params.toString());
+
+                    const logXhr = new XMLHttpRequest();
+                    logXhr.open('POST', 'http://localhost:8081/HabitManagement/habits', true);
+                    
+                    // Set proper content type
+                    logXhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    
+                    logXhr.onload = function() {
+                        if (this.status === 200) {
+                            window.location.href = 'index.html?success=habit_logged';
+                        } else {
+                            alert('Error logging habit: ' + (this.responseText || 'Unknown error'));
+                        }
+                    };
+                    
+                    logXhr.onerror = function() {
+                        alert('Network error occurred while logging habit');
+                    };
+                    
+                    logXhr.send(params.toString());
+                });
+            }
+        });
+    </script>
+</body>
+</html>

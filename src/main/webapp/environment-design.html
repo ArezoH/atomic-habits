@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Environment Design</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Environment Design</h1>
+        <a href="index.html">Back to Dashboard</a>
+    </header>
+
+    <main>
+        <form id="environment-form">
+            <div class="form-group">
+                <label for="habit_id">Select Habit:</label>
+                <select id="habit_id" name="habit_id" required>
+                    <!-- Will be populated by JavaScript -->
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="design_type">Design Type:</label>
+                <select id="design_type" name="design_type" required>
+                    <option value="visual_cue">Visual Cue</option>
+                    <option value="removal">Obstacle Removal</option>
+                    <option value="addition">Helpful Addition</option>
+                    <option value="rearrangement">Space Rearrangement</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Design Description:</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+            
+            <button type="submit">Add Environment Design</button>
+        </form>
+    </main>
+
+    <script src="js/environment.js"></script>
+</body>
+</html>

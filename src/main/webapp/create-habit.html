@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Habit</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Create New Habit</h1>
+        <a href="index.html">Back to Dashboard</a>
+    </header>
+
+    <main>
+        <form id="habit-form">
+            <div class="form-group">
+                <label for="name">Habit Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="type">Habit Type:</label>
+                <select id="type" name="type" required>
+                    <option value="good">Good Habit</option>
+                    <option value="bad">Bad Habit to Break</option>
+                </select>
+            </div>
+            
+            <h3>Atomic Habit Components</h3>
+            <div class="form-group">
+                <label for="cue">Cue:</label>
+                <input type="text" id="cue" name="cue" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="craving">Craving:</label>
+                <input type="text" id="craving" name="craving" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="response">Response:</label>
+                <input type="text" id="response" name="response" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="reward">Reward:</label>
+                <input type="text" id="reward" name="reward" required>
+            </div>
+            
+            <button type="submit">Create Habit</button>
+        </form>
+    </main>
+
+    <script src="js/habits.js"></script>
+</body>
+</html>
