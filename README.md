@@ -1,5 +1,5 @@
 # Atomic Habits Management System Documentation
-## Table of ContentsOverview
+## Overview
 
 Our Atomic Habits Management System is a comprehensive application designed to help users build, track, and maintain positive habits using principles from James Clear's "Atomic Habits". The system implements habit formation concepts including cue-routine-reward cycles, habit stacking, and environment design.
 
