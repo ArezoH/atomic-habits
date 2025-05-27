@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load habits on index page
     if (document.getElementById('habits-list')) {
         loadHabits();
+		renderHabits
     }
 
     // Handle habit form submission
@@ -56,6 +57,23 @@ function renderHabits(habits) {
     
     container.appendChild(list);
 }
+function deleteHabit(id) {
+    if (confirm("Are you sure you want to delete this habit?")) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost:8081/HabitManagement/habits?action=delete', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        
+        xhr.onload = function() {
+            if (this.status === 204) {
+                window.location.href = 'index.html?success=habit_deleted';
+            } else {
+                alert('Error deleting habit');
+            }
+        };
+        
+        xhr.send(`id=${id}`);
+    }
+}
 
 function createHabit() {
     const form = document.getElementById('habit-form');
@@ -69,10 +87,10 @@ function createHabit() {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     
     xhr.onload = function() {
-        if (this.status === 201) {
+        if (this.status === 200) {
             window.location.href = 'index.html?success=habit_created';
         } else {
-            alert('sucess: ' + this.responseText);
+            alert('success: ' + this.responseText);
         }
     };
     

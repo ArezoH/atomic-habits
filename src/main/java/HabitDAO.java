@@ -187,4 +187,17 @@ public class HabitDAO {
         disconnect();
         return stacks;
     }
+    
+    public boolean deleteHabit(int id) throws SQLException {
+        String sql = "DELETE FROM habits WHERE id = ?";
+        
+        connect();
+        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+        statement.setInt(1, id);
+        
+        boolean rowDeleted = statement.executeUpdate() > 0;
+        statement.close();
+        disconnect();
+        return rowDeleted;
+    }
 }

@@ -42,30 +42,40 @@ public class HabitServlet extends HttpServlet {
     }
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        String action = request.getParameter("action");
-        
-        try {
-            switch (action) {
-                case "create":
-                    createHabit(request, response);
-                    break;
-                case "log":
-                    logHabitCompletion(request, response);
-                    break;
-                case "stack":
-                    createHabitStack(request, response);
-                    break;
-                case "environment":
-                    addEnvironmentDesign(request, response);
-                    break;
-                default:
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
-            }
-        } catch (Exception e) {
-            throw new ServletException(e);
-        }
-    }
+    	    throws ServletException, IOException {
+    	    String action = request.getParameter("action");
+    	    
+    	    try {
+    	        switch (action) {
+    	            case "create":
+    	                createHabit(request, response);
+    	            case "log":
+    	                logHabitCompletion(request, response);
+    	            case "stack":
+    	                createHabitStack(request, response);
+    	            case "environment":
+    	                addEnvironmentDesign(request, response);
+    	            case "delete":
+    	                deleteHabit(request, response);
+    	            default:
+    	                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
+    	        }
+    	    } catch (Exception e) {
+    	        throw new ServletException(e);
+    	    }
+    	}
+
+    private void deleteHabit(HttpServletRequest request, HttpServletResponse response)
+    	    throws SQLException, IOException {
+    	    int id = Integer.parseInt(request.getParameter("id"));
+    	    boolean deleted = habitDao.deleteHabit(id);
+    	    
+    	    if (deleted) {
+    	        response.sendRedirect("index.html?success=habit_deleted");
+    	    } else {
+    	        response.sendRedirect("index.html?error=delete_failed");
+    	    }
+    	}
     
     private void listHabits(HttpServletRequest request, HttpServletResponse response)
     throws SQLException, IOException {

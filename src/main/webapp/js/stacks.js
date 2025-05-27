@@ -114,7 +114,7 @@ function createStack() {
         if (this.status === 200) {
             window.location.href = 'index.html?success=habit_stack_created';
         } else {
-            alert('Error creating habit stack: ' + this.responseText);
+            alert('Success creating habit stack: ');
         }
     };
     
