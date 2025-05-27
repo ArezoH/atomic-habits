@@ -42,28 +42,28 @@ public class HabitServlet extends HttpServlet {
     }
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    	    throws ServletException, IOException {
-    	    String action = request.getParameter("action");
-    	    
-    	    try {
-    	        switch (action) {
-    	            case "create":
-    	                createHabit(request, response);
-    	            case "log":
-    	                logHabitCompletion(request, response);
-    	            case "stack":
-    	                createHabitStack(request, response);
-    	            case "environment":
-    	                addEnvironmentDesign(request, response);
-    	            case "delete":
-    	                deleteHabit(request, response);
-    	            default:
-    	                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
-    	        }
-    	    } catch (Exception e) {
-    	        throw new ServletException(e);
-    	    }
-    	}
+            throws ServletException, IOException {
+        String action = request.getParameter("action");
+
+        try {
+            if ("create".equals(action)) {
+                createHabit(request, response);
+            } else if ("log".equals(action)) {
+                logHabitCompletion(request, response);
+            } else if ("stack".equals(action)) {
+                createHabitStack(request, response);
+            } else if ("environment".equals(action)) {
+                addEnvironmentDesign(request, response);
+            } else if ("delete".equals(action)) {
+                deleteHabit(request, response);
+            } else {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action: " + action);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Helpful during debugging
+            throw new ServletException(e);
+        }
+    }
 
     private void deleteHabit(HttpServletRequest request, HttpServletResponse response)
     	    throws SQLException, IOException {
@@ -133,12 +133,26 @@ public class HabitServlet extends HttpServlet {
     }
     
     private void createHabitStack(HttpServletRequest request, HttpServletResponse response)
-    throws SQLException, IOException {
-        int baseHabitId = Integer.parseInt(request.getParameter("base_habit_id"));
-        int newHabitId = Integer.parseInt(request.getParameter("new_habit_id"));
-        
-        boolean success = habitDao.createHabitStack(baseHabitId, newHabitId);
-        sendSuccessResponse(response, success, "habit_stack_created");
+            throws SQLException, IOException {
+
+        String baseHabitIdStr = request.getParameter("base_habit_id");
+        String newHabitIdStr = request.getParameter("new_habit_id");
+
+        if (baseHabitIdStr == null || newHabitIdStr == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing required parameters: base_habit_id or new_habit_id.");
+            return;
+        }
+
+        try {
+            int baseHabitId = Integer.parseInt(baseHabitIdStr);
+            int newHabitId = Integer.parseInt(newHabitIdStr);
+
+            boolean success = habitDao.createHabitStack(baseHabitId, newHabitId);
+            sendSuccessResponse(response, success, "habit_stack_created");
+
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid number format for base_habit_id or new_habit_id.");
+        }
     }
     
     private void addEnvironmentDesign(HttpServletRequest request, HttpServletResponse response)

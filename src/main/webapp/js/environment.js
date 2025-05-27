@@ -102,9 +102,6 @@ function addEnvironmentDesign() {
         }
     };
     
-    xhr.onerror = function() {
-        alert('Network error occurred while adding environment design');
-    };
     
     xhr.send(params.toString());
 }

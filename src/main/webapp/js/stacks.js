@@ -97,16 +97,13 @@ function populateHabitDropdowns(habits) {
 function createStack() {
     const form = document.getElementById('stack-form');
     const formData = new URLSearchParams();
-    
-    // Explicitly add all required parameters
-    formData.append('action', 'stack');
     formData.append('base_habit_id', form.querySelector('[name="base_habit_id"]').value);
     formData.append('new_habit_id', form.querySelector('[name="new_habit_id"]').value);
     
     console.log('Sending data:', formData.toString());
 
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:8081/HabitManagement/habits', true);
+    xhr.open('POST', 'http://localhost:8081/HabitManagement/habits?action=stack', true);
     
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     
@@ -114,12 +111,8 @@ function createStack() {
         if (this.status === 200) {
             window.location.href = 'index.html?success=habit_stack_created';
         } else {
-            alert('Success creating habit stack: ');
+            alert('error: ',this.responseText);
         }
-    };
-    
-    xhr.onerror = function() {
-        alert('Network error occurred');
     };
     
     xhr.send(formData.toString());

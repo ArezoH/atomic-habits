@@ -143,7 +143,6 @@ public class HabitDAO {
         resultSet.close();
         statement.close();
         disconnect();
-        
         return streaks;
     }
     

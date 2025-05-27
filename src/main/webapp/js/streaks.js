@@ -63,7 +63,6 @@ function renderStreaks(streaks) {
         item.innerHTML = `
             <h3>${streak.name}</h3>
             <p><strong>Current Streak:</strong> ${streak.streak} days</p>
-            <p><strong>Last Completed:</strong> ${streak.lastDate}</p>
 			<button onclick="deleteHabit(${streak.id})">Delete</button>
         `;
         list.appendChild(item);
@@ -93,10 +92,10 @@ function renderStreaks(streaks) {
 	     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
      
 		 xhr.onload = function() {
-		        if (this.status === 201) {
+		        if (this.status === 200) {
 		            window.location.href = 'index.html?success=habit_created';
 		        } else {
-		            alert('success: ');
+		            alert('error: ',this.responseText);
 		        }
 		    };
 		    
